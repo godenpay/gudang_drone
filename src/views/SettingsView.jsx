@@ -83,7 +83,13 @@ export default function SettingsView({ user }) {
               <input
                 type="text"
                 disabled
-                value={user?.role === 'admin_gudang' ? 'Admin Gudang' : 'Manajer'}
+                value={
+                  user?.role === 'admin_gudang'
+                    ? 'Admin Gudang'
+                    : user?.role === 'staff'
+                    ? 'Staff'
+                    : 'Manajer'
+                }
                 className="w-full bg-gray-50 border border-gray-200 rounded p-2 text-sm text-gray-600"
               />
             </div>
