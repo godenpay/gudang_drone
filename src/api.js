@@ -54,12 +54,20 @@ export const api = {
     request('/transactions/inbound.php', { method: 'POST', body: JSON.stringify(payload) }),
   outbound: (payload) =>
     request('/transactions/outbound.php', { method: 'POST', body: JSON.stringify(payload) }),
+  approveTransaction: (id) =>
+    request('/transactions/approve.php', { method: 'POST', body: JSON.stringify({ id }) }),
+  rejectTransaction: (id) =>
+    request('/transactions/reject.php', { method: 'POST', body: JSON.stringify({ id }) }),
 
   getLoans: () => request('/loans/list.php'),
   createLoan: (payload) =>
     request('/loans/create.php', { method: 'POST', body: JSON.stringify(payload) }),
   returnLoan: (id, payload) =>
     request(`/loans/return.php?id=${encodeURIComponent(id)}`, { method: 'PUT', body: JSON.stringify(payload) }),
+  approveLoan: (id) =>
+    request('/loans/approve.php', { method: 'POST', body: JSON.stringify({ id }) }),
+  rejectLoan: (id) =>
+    request('/loans/reject.php', { method: 'POST', body: JSON.stringify({ id }) }),
 
   getUsers: () => request('/users/list.php'),
   createUser: (payload) =>

@@ -8,7 +8,7 @@ export default function InventoryView({ inventory, onAdd, onEdit, onDelete, canE
   const [filterPurpose, setFilterPurpose] = useState('All');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingItem, setEditingItem] = useState(null);
-  const [formData, setFormData] = useState({ id: '', name: '', category: 'Drone', purpose: 'Jual', minStock: 5, location: '', price: 0 });
+  const [formData, setFormData] = useState({ id: '', name: '', category: 'Drone', purpose: 'Jual', minStock: 5, location: '' });
   const [duplicateWarning, setDuplicateWarning] = useState('');
   const skuInputRef = useRef(null);
   const nameInputRef = useRef(null);
@@ -56,12 +56,9 @@ export default function InventoryView({ inventory, onAdd, onEdit, onDelete, canE
     return matchesSearch && matchesCategory && matchesPurpose;
   });
 
-  const formatRupiah = (number) =>
-    new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(number);
-
   const handleOpenAdd = () => {
     setEditingItem(null);
-    setFormData({ id: '', name: '', category: 'Drone', purpose: 'Jual', minStock: 5, location: '', price: 0 });
+    setFormData({ id: '', name: '', category: 'Drone', purpose: 'Jual', minStock: 5, location: '' });
     setDuplicateWarning('');
     setIsModalOpen(true);
   };
@@ -75,9 +72,9 @@ export default function InventoryView({ inventory, onAdd, onEdit, onDelete, canE
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (editingItem) {
-      await onEdit(editingItem.id, { ...formData, minStock: parseInt(formData.minStock), price: parseFloat(formData.price) });
+      await onEdit(editingItem.id, { ...formData, minStock: parseInt(formData.minStock) });
     } else {
-      await onAdd({ ...formData, minStock: parseInt(formData.minStock), price: parseFloat(formData.price) });
+      await onAdd({ ...formData, minStock: parseInt(formData.minStock) });
     }
     setIsModalOpen(false);
   };
@@ -139,7 +136,6 @@ export default function InventoryView({ inventory, onAdd, onEdit, onDelete, canE
               <th className="px-6 py-4 font-medium">Kategori</th>
               <th className="px-6 py-4 font-medium">Peruntukan</th>
               <th className="px-6 py-4 font-medium">Lokasi</th>
-              <th className="px-6 py-4 font-medium text-right">Harga Satuan</th>
               <th className="px-6 py-4 font-medium text-center">Stok</th>
               <th className="px-6 py-4 font-medium text-center">Status</th>
               {canEdit && <th className="px-6 py-4 font-medium text-center">Aksi</th>}
@@ -161,7 +157,6 @@ export default function InventoryView({ inventory, onAdd, onEdit, onDelete, canE
                   )}
                 </td>
                 <td className="px-6 py-4 text-gray-500 font-mono text-xs">{item.location}</td>
-                <td className="px-6 py-4 text-right text-gray-600">{formatRupiah(item.price)}</td>
                 <td className="px-6 py-4 text-center font-bold text-gray-800">{item.stock}</td>
                 <td className="px-6 py-4 text-center">
                   {item.stock > item.minStock ? (
@@ -194,7 +189,7 @@ export default function InventoryView({ inventory, onAdd, onEdit, onDelete, canE
             ))}
             {filteredInventory.length === 0 && (
               <tr>
-                <td colSpan={canEdit ? 9 : 8} className="px-6 py-12 text-center text-gray-500">
+                <td colSpan={canEdit ? 8 : 7} className="px-6 py-12 text-center text-gray-500">
                   Tidak ada barang yang cocok dengan pencarian Anda.
                 </td>
               </tr>
@@ -292,28 +287,15 @@ export default function InventoryView({ inventory, onAdd, onEdit, onDelete, canE
                   />
                 </div>
               </div>
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Lokasi Rak</label>
-                  <input
-                    type="text"
-                    className="w-full border border-gray-300 rounded-lg p-2.5 outline-none focus:border-blue-500 text-sm"
-                    value={formData.location}
-                    onChange={(e) => setFormData({ ...formData, location: e.target.value })}
-                    placeholder="Contoh: A-01-01"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Harga Satuan (Rp) *</label>
-                  <input
-                    required
-                    type="number"
-                    min="0"
-                    className="w-full border border-gray-300 rounded-lg p-2.5 outline-none focus:border-blue-500 text-sm"
-                    value={formData.price}
-                    onChange={(e) => setFormData({ ...formData, price: e.target.value })}
-                  />
-                </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Lokasi Rak</label>
+                <input
+                  type="text"
+                  className="w-full border border-gray-300 rounded-lg p-2.5 outline-none focus:border-blue-500 text-sm"
+                  value={formData.location}
+                  onChange={(e) => setFormData({ ...formData, location: e.target.value })}
+                  placeholder="Contoh: A-01-01"
+                />
               </div>
 
               <div className="pt-4 flex justify-end gap-3 border-t border-gray-100 mt-6">

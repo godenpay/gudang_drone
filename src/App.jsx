@@ -131,6 +131,48 @@ function Shell() {
     }
   };
 
+  const handleApproveTrx = async (id) => {
+    try {
+      const res = await api.approveTransaction(id);
+      await loadData();
+      alert(res.message);
+    } catch (err) {
+      alert(err.message);
+    }
+  };
+
+  const handleRejectTrx = async (id) => {
+    if (!window.confirm('Tolak permintaan outbound ini?')) return;
+    try {
+      const res = await api.rejectTransaction(id);
+      await loadData();
+      alert(res.message);
+    } catch (err) {
+      alert(err.message);
+    }
+  };
+
+  const handleApproveLoan = async (id) => {
+    try {
+      const res = await api.approveLoan(id);
+      await loadData();
+      alert(res.message);
+    } catch (err) {
+      alert(err.message);
+    }
+  };
+
+  const handleRejectLoan = async (id) => {
+    if (!window.confirm('Tolak permintaan peminjaman ini?')) return;
+    try {
+      const res = await api.rejectLoan(id);
+      await loadData();
+      alert(res.message);
+    } catch (err) {
+      alert(err.message);
+    }
+  };
+
   const handleReturnLoan = async (id, payload) => {
     if (!window.confirm('Konfirmasi pengembalian unit ini ke stok demo?')) return;
     try {
@@ -263,10 +305,20 @@ function Shell() {
                   loans={loans}
                   onCreateLoan={handleCreateLoan}
                   onReturnLoan={handleReturnLoan}
+                  onApproveLoan={handleApproveLoan}
+                  onRejectLoan={handleRejectLoan}
                   canManage={can('loans')}
+                  isAdminGudang={isAdminGudang}
                 />
               )}
-              {activeTab === 'history' && <HistoryView transactions={transactions} />}
+              {activeTab === 'history' && (
+                <HistoryView
+                  transactions={transactions}
+                  onApprove={handleApproveTrx}
+                  onReject={handleRejectTrx}
+                  isAdminGudang={isAdminGudang}
+                />
+              )}
               {activeTab === 'settings' && <SettingsView user={user} />}
               {activeTab === 'users' && isAdminGudang && <UsersView currentUser={user} />}
               {activeTab === 'reports' && isAdminGudang && <ReportsView transactions={transactions} loans={loans} />}

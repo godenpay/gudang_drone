@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { HandHelping, RotateCcw, X, CheckCircle2, ScanBarcode } from 'lucide-react';
 
-export default function LoanView({ inventory, loans, onCreateLoan, onReturnLoan, canManage = true }) {
+export default function LoanView({ inventory, loans, onCreateLoan, onReturnLoan, onApproveLoan, onRejectLoan, canManage = true, isAdminGudang = false }) {
   const today = new Date().toISOString().slice(0, 10);
   const demoDrones = inventory.filter((item) => item.category === 'Drone' && item.purpose === 'Demo-Project');
 
@@ -89,6 +89,8 @@ export default function LoanView({ inventory, loans, onCreateLoan, onReturnLoan,
       Dipinjam: 'bg-amber-100 text-amber-700',
       Dikembalikan: 'bg-emerald-100 text-emerald-700',
       Terlambat: 'bg-red-100 text-red-700',
+      'Menunggu Approval': 'bg-blue-100 text-blue-700',
+      Ditolak: 'bg-gray-200 text-gray-600',
     };
     return <span className={`px-2 py-1 rounded-full text-xs font-medium ${map[status] || 'bg-gray-100 text-gray-600'}`}>{status}</span>;
   };
@@ -282,7 +284,24 @@ export default function LoanView({ inventory, loans, onCreateLoan, onReturnLoan,
                   <td className="px-6 py-3">{loan.expected_return_date}</td>
                   <td className="px-6 py-3 text-center">{statusBadge(loan.status)}</td>
                   <td className="px-6 py-3 text-center">
-                    {canManage ? (
+                    {loan.status === 'Menunggu Approval' && isAdminGudang ? (
+                      <div className="flex gap-2 justify-center">
+                        <button
+                          onClick={() => onApproveLoan(loan.id)}
+                          className="px-3 py-1.5 bg-emerald-50 text-emerald-700 rounded-lg text-xs font-medium hover:bg-emerald-100"
+                        >
+                          Approve
+                        </button>
+                        <button
+                          onClick={() => onRejectLoan(loan.id)}
+                          className="px-3 py-1.5 bg-red-50 text-red-700 rounded-lg text-xs font-medium hover:bg-red-100"
+                        >
+                          Tolak
+                        </button>
+                      </div>
+                    ) : loan.status === 'Menunggu Approval' ? (
+                      <span className="text-xs text-gray-400">Menunggu Admin Gudang</span>
+                    ) : canManage && loan.status !== 'Ditolak' ? (
                       <button
                         onClick={() => setReturningLoan(loan)}
                         className="px-3 py-1.5 bg-emerald-50 text-emerald-700 rounded-lg text-xs font-medium hover:bg-emerald-100 inline-flex items-center gap-1"
