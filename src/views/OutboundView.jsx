@@ -119,7 +119,7 @@ export default function OutboundView({ inventory, onSubmit }) {
 
         {selectedItem && (
           <div className={`p-4 rounded-lg border text-sm ${selectedItem.stock < 5 ? 'bg-red-50 border-red-100' : 'bg-gray-50 border-gray-100'}`}>
-            <div className="grid grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               <div className="col-span-2">
                 <p className="text-gray-500 mb-1">Lokasi Rak Pengambilan</p>
                 <p className="font-bold text-xl font-mono text-gray-800">{selectedItem.location}</p>
@@ -134,7 +134,7 @@ export default function OutboundView({ inventory, onSubmit }) {
           </div>
         )}
 
-        <div className="grid grid-cols-2 gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Kuantitas Keluar *</label>
             <input

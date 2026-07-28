@@ -114,7 +114,7 @@ export default function InboundView({ inventory, onSubmit }) {
 
         {selectedItem && (
           <div className="p-4 bg-gray-50 rounded-lg border border-gray-100 text-sm">
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
                 <p className="text-gray-500 mb-1">Kategori</p>
                 <p className="font-medium">{selectedItem.category}</p>
@@ -131,7 +131,7 @@ export default function InboundView({ inventory, onSubmit }) {
           </div>
         )}
 
-        <div className="grid grid-cols-2 gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Kuantitas Masuk *</label>
             <input

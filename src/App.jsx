@@ -8,6 +8,7 @@ import {
   Search,
   Bell,
   Menu,
+  X,
   History,
   LogOut,
   HandHelping,
@@ -44,6 +45,8 @@ function Shell() {
 
   const [activeTab, setActiveTab] = useState('dashboard');
   const [isSidebarOpen, setSidebarOpen] = useState(true);
+  const [isMobileOpen, setMobileOpen] = useState(false);
+  const sidebarExpanded = isSidebarOpen || isMobileOpen;
   const [inventory, setInventory] = useState([]);
   const [transactions, setTransactions] = useState([]);
   const [loans, setLoans] = useState([]);
@@ -256,58 +259,86 @@ function Shell() {
 
   return (
     <div className="flex h-screen bg-gray-50 font-sans text-gray-800 overflow-hidden">
-      <aside className={`${isSidebarOpen ? 'w-64' : 'w-20'} transition-all duration-300 bg-slate-900 text-white flex flex-col`}>
-        <div className="p-4 flex items-center justify-between border-b border-slate-800">
-          <div className={`flex items-center overflow-hidden whitespace-nowrap ${!isSidebarOpen && 'hidden'}`}>
+      {isMobileOpen && (
+        <div
+          className="fixed inset-0 bg-slate-900/60 backdrop-blur-[2px] z-40 lg:hidden"
+          onClick={() => setMobileOpen(false)}
+        />
+      )}
+
+      <aside
+        className={`fixed inset-y-0 left-0 z-50 w-72 lg:z-auto lg:static lg:w-auto transform transition-transform duration-300 lg:translate-x-0 ${
+          isMobileOpen ? 'translate-x-0' : '-translate-x-full'
+        } ${isSidebarOpen ? 'lg:w-64' : 'lg:w-20'} bg-slate-900 text-white flex flex-col shadow-2xl lg:shadow-none shrink-0`}
+      >
+        <div className="h-16 px-4 flex items-center justify-between border-b border-slate-800 shrink-0">
+          <div className={`flex items-center overflow-hidden whitespace-nowrap ${!sidebarExpanded && 'hidden'}`}>
             <div className="bg-white p-1.5 rounded-lg mr-3 shrink-0">
               <img src={logo} alt="GETINDO" className="w-8 h-8 object-contain" />
             </div>
             <div>
-              <h1 className="font-bold text-sm">PT. GENERAL TECH</h1>
+              <h1 className="font-bold text-sm tracking-wide">PT. GENERAL TECH</h1>
               <p className="text-xs text-slate-400">WMS System</p>
             </div>
           </div>
-          <button onClick={() => setSidebarOpen(!isSidebarOpen)} className="p-2 hover:bg-slate-800 rounded-lg">
+          <button
+            onClick={() => setSidebarOpen(!isSidebarOpen)}
+            className="hidden lg:flex p-2 hover:bg-slate-800 rounded-lg transition-colors"
+          >
             <Menu className="w-5 h-5" />
+          </button>
+          <button
+            onClick={() => setMobileOpen(false)}
+            className="lg:hidden p-2 hover:bg-slate-800 rounded-lg transition-colors"
+          >
+            <X className="w-5 h-5" />
           </button>
         </div>
 
         <nav className="flex-1 py-4 flex flex-col gap-2 px-3">
-          <NavItem icon={<LayoutDashboard />} label="Dasbor" active={activeTab === 'dashboard'} onClick={() => setActiveTab('dashboard')} isOpen={isSidebarOpen} />
-          <NavItem icon={<Package />} label="Inventaris" active={activeTab === 'inventory'} onClick={() => setActiveTab('inventory')} isOpen={isSidebarOpen} />
+          <NavItem icon={<LayoutDashboard />} label="Dasbor" active={activeTab === 'dashboard'} onClick={() => { setActiveTab('dashboard'); setMobileOpen(false); }} isOpen={sidebarExpanded} />
+          <NavItem icon={<Package />} label="Inventaris" active={activeTab === 'inventory'} onClick={() => { setActiveTab('inventory'); setMobileOpen(false); }} isOpen={sidebarExpanded} />
           {can('inbound') && (
-            <NavItem icon={<ArrowDownToLine />} label="Barang Masuk" active={activeTab === 'inbound'} onClick={() => setActiveTab('inbound')} isOpen={isSidebarOpen} />
+            <NavItem icon={<ArrowDownToLine />} label="Barang Masuk" active={activeTab === 'inbound'} onClick={() => { setActiveTab('inbound'); setMobileOpen(false); }} isOpen={sidebarExpanded} />
           )}
           {can('outbound') && (
-            <NavItem icon={<ArrowUpFromLine />} label="Barang Keluar" active={activeTab === 'outbound'} onClick={() => setActiveTab('outbound')} isOpen={isSidebarOpen} />
+            <NavItem icon={<ArrowUpFromLine />} label="Barang Keluar" active={activeTab === 'outbound'} onClick={() => { setActiveTab('outbound'); setMobileOpen(false); }} isOpen={sidebarExpanded} />
           )}
-          <NavItem icon={<HandHelping />} label="Peminjaman Demo" active={activeTab === 'loans'} onClick={() => setActiveTab('loans')} isOpen={isSidebarOpen} />
-          <NavItem icon={<History />} label="Riwayat Transaksi" active={activeTab === 'history'} onClick={() => setActiveTab('history')} isOpen={isSidebarOpen} />
+          <NavItem icon={<HandHelping />} label="Peminjaman Demo" active={activeTab === 'loans'} onClick={() => { setActiveTab('loans'); setMobileOpen(false); }} isOpen={sidebarExpanded} />
+          <NavItem icon={<History />} label="Riwayat Transaksi" active={activeTab === 'history'} onClick={() => { setActiveTab('history'); setMobileOpen(false); }} isOpen={sidebarExpanded} />
           {isAdminGudang && (
-            <NavItem icon={<FileBarChart />} label="Laporan" active={activeTab === 'reports'} onClick={() => setActiveTab('reports')} isOpen={isSidebarOpen} />
+            <NavItem icon={<FileBarChart />} label="Laporan" active={activeTab === 'reports'} onClick={() => { setActiveTab('reports'); setMobileOpen(false); }} isOpen={sidebarExpanded} />
           )}
         </nav>
 
         <div className="p-3 border-t border-slate-800 flex flex-col gap-2">
           {isAdminGudang && (
-            <NavItem icon={<Users />} label="Manajemen User" active={activeTab === 'users'} onClick={() => setActiveTab('users')} isOpen={isSidebarOpen} />
+            <NavItem icon={<Users />} label="Manajemen User" active={activeTab === 'users'} onClick={() => { setActiveTab('users'); setMobileOpen(false); }} isOpen={sidebarExpanded} />
           )}
-          <NavItem icon={<Settings />} label="Pengaturan" active={activeTab === 'settings'} onClick={() => setActiveTab('settings')} isOpen={isSidebarOpen} />
-          <NavItem icon={<LogOut />} label="Keluar" active={false} onClick={logout} isOpen={isSidebarOpen} />
+          <NavItem icon={<Settings />} label="Pengaturan" active={activeTab === 'settings'} onClick={() => { setActiveTab('settings'); setMobileOpen(false); }} isOpen={sidebarExpanded} />
+          <NavItem icon={<LogOut />} label="Keluar" active={false} onClick={logout} isOpen={sidebarExpanded} />
         </div>
       </aside>
 
-      <main className="flex-1 flex flex-col h-full overflow-hidden">
-        <header className="h-16 bg-white border-b border-gray-200 flex items-center justify-between px-6 shrink-0">
-          <h2 className="text-xl font-semibold text-gray-800 capitalize">{titles[activeTab]}</h2>
+      <main className="flex-1 flex flex-col h-full overflow-hidden min-w-0">
+        <header className="h-16 bg-white/90 backdrop-blur border-b border-gray-200 flex items-center justify-between px-4 sm:px-6 shrink-0 shadow-sm sticky top-0 z-30">
+          <div className="flex items-center gap-3 min-w-0">
+            <button
+              onClick={() => setMobileOpen(true)}
+              className="lg:hidden p-2 -ml-2 text-gray-500 hover:bg-gray-100 rounded-lg shrink-0"
+            >
+              <Menu className="w-5 h-5" />
+            </button>
+            <h2 className="text-base sm:text-xl font-semibold text-gray-800 capitalize truncate">{titles[activeTab]}</h2>
+          </div>
 
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2 sm:gap-4 shrink-0">
             <div className="relative hidden md:block">
               <Search className="w-5 h-5 text-gray-400 absolute left-3 top-1/2 transform -translate-y-1/2" />
               <input
                 type="text"
                 placeholder="Cari SKU / Item..."
-                className="pl-10 pr-4 py-2 bg-gray-100 border-transparent rounded-lg text-sm focus:bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none w-64 transition-all"
+                className="pl-10 pr-4 py-2 bg-gray-100 border-transparent rounded-lg text-sm focus:bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none w-48 lg:w-64 transition-all"
               />
             </div>
             <div className="relative" ref={notifRef}>
@@ -322,7 +353,7 @@ function Shell() {
               </button>
 
               {isNotifOpen && (
-                <div className="absolute right-0 mt-2 w-80 bg-white rounded-xl border border-gray-200 shadow-lg z-50 max-h-96 overflow-y-auto">
+                <div className="absolute right-0 mt-2 w-[calc(100vw-2rem)] max-w-80 bg-white rounded-xl border border-gray-200 shadow-lg z-50 max-h-96 overflow-y-auto">
                   <div className="p-3 border-b border-gray-100 font-semibold text-gray-700 text-sm">
                     Notifikasi {notifications.length > 0 && `(${notifications.length})`}
                   </div>
@@ -356,19 +387,19 @@ function Shell() {
                 </div>
               )}
             </div>
-            <div className="flex items-center gap-2 pl-4 border-l border-gray-200">
-              <div className="w-8 h-8 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center font-bold">
+            <div className="flex items-center gap-2 pl-2 sm:pl-4 border-l border-gray-200">
+              <div className="w-8 h-8 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center font-bold ring-2 ring-blue-50 shrink-0">
                 {(user?.full_name || '?').charAt(0)}
               </div>
-              <div className="text-sm">
-                <p className="font-semibold text-gray-700">{user?.full_name}</p>
+              <div className="text-sm hidden sm:block">
+                <p className="font-semibold text-gray-700 leading-tight">{user?.full_name}</p>
                 <p className="text-xs text-gray-400">{roleLabel}</p>
               </div>
             </div>
           </div>
         </header>
 
-        <div className="flex-1 overflow-auto p-6 bg-gray-50/50">
+        <div className="flex-1 overflow-auto p-4 sm:p-6 bg-gray-50/50">
           {isLoading && (
             <div className="flex items-center justify-center h-full text-gray-400 text-sm">Memuat data...</div>
           )}

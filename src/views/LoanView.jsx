@@ -160,7 +160,7 @@ export default function LoanView({ inventory, loans, onCreateLoan, onReturnLoan,
             )}
           </div>
 
-          <div className="grid grid-cols-2 gap-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Kuantitas *</label>
               <input
@@ -200,7 +200,7 @@ export default function LoanView({ inventory, loans, onCreateLoan, onReturnLoan,
             />
           </div>
 
-          <div className="grid grid-cols-2 gap-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Tanggal Pinjam *</label>
               <input
