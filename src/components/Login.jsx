@@ -27,10 +27,9 @@ export default function Login() {
     <div className="min-h-screen bg-slate-900 flex items-center justify-center p-4">
       <div className="w-full max-w-md bg-white rounded-xl shadow-xl overflow-hidden">
         <div className="bg-slate-900 p-8 text-center border-b border-slate-800">
-          <div className="w-14 h-14 rounded-lg bg-white flex items-center justify-center mx-auto mb-4 overflow-hidden">
-            <img src={logo} alt="GETINDO" className="w-full h-full object-contain p-1" />
+          <div className="bg-white rounded-lg p-4 mb-2">
+            <img src={logo} alt="GETINDO" className="w-full" />
           </div>
-          <h1 className="text-white font-bold text-base tracking-wide">PT. GENERAL TECHNOLOGY INDONESIA</h1>
           <p className="text-slate-400 text-sm mt-1">Warehouse Management System</p>
         </div>
 
