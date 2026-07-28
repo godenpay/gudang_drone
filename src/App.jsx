@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import {
   LayoutDashboard,
   Package,
@@ -13,6 +13,9 @@ import {
   HandHelping,
   Users,
   FileBarChart,
+  AlertTriangle,
+  PackageX,
+  Clock,
 } from 'lucide-react';
 
 import { AuthProvider, useAuth } from './context/AuthContext';
@@ -62,6 +65,58 @@ function Shell() {
   useEffect(() => {
     loadData();
   }, [loadData]);
+
+  // --- Notifikasi lonceng: stok rendah/habis + pinjaman terlambat/jatuh tempo dekat ---
+  const [isNotifOpen, setNotifOpen] = useState(false);
+  const notifRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (notifRef.current && !notifRef.current.contains(e.target)) setNotifOpen(false);
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  const lowStockItems = inventory.filter((item) => item.stock <= item.minStock);
+
+  const now = new Date();
+  const soon = new Date();
+  soon.setDate(now.getDate() + 3);
+
+  const overdueLoans = loans.filter((l) => l.status === 'Terlambat');
+  const dueSoonLoans = loans.filter((l) => {
+    if (l.status !== 'Dipinjam') return false;
+    const due = new Date(l.expected_return_date);
+    return due >= now && due <= soon;
+  });
+
+  const notifications = [
+    ...lowStockItems.map((item) => ({
+      id: `stock-${item.id}`,
+      icon: item.stock === 0 ? PackageX : AlertTriangle,
+      color: item.stock === 0 ? 'text-red-600 bg-red-50' : 'text-amber-600 bg-amber-50',
+      title: item.stock === 0 ? `${item.name} habis` : `Stok ${item.name} menipis`,
+      desc: `Sisa ${item.stock} unit (batas minimum ${item.minStock})`,
+      onClick: () => setActiveTab('inventory'),
+    })),
+    ...overdueLoans.map((l) => ({
+      id: `overdue-${l.id}`,
+      icon: Clock,
+      color: 'text-red-600 bg-red-50',
+      title: `Pinjaman "${l.item_name}" terlambat`,
+      desc: `Peminjam: ${l.borrower_name} • jatuh tempo ${l.expected_return_date}`,
+      onClick: () => setActiveTab('loans'),
+    })),
+    ...dueSoonLoans.map((l) => ({
+      id: `duesoon-${l.id}`,
+      icon: Clock,
+      color: 'text-amber-600 bg-amber-50',
+      title: `Pinjaman "${l.item_name}" segera jatuh tempo`,
+      desc: `Peminjam: ${l.borrower_name} • jatuh tempo ${l.expected_return_date}`,
+      onClick: () => setActiveTab('loans'),
+    })),
+  ];
 
   // Jika user mencoba akses tab yang tidak diizinkan (mis. lewat state lama, atau
   // permission-nya baru saja dicabut admin), redirect ke dashboard.
@@ -252,10 +307,52 @@ function Shell() {
                 className="pl-10 pr-4 py-2 bg-gray-100 border-transparent rounded-lg text-sm focus:bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none w-64 transition-all"
               />
             </div>
-            <button className="p-2 text-gray-400 hover:text-gray-600 relative">
-              <Bell className="w-5 h-5" />
-              <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
-            </button>
+            <div className="relative" ref={notifRef}>
+              <button
+                onClick={() => setNotifOpen((v) => !v)}
+                className="p-2 text-gray-400 hover:text-gray-600 relative"
+              >
+                <Bell className="w-5 h-5" />
+                {notifications.length > 0 && (
+                  <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
+                )}
+              </button>
+
+              {isNotifOpen && (
+                <div className="absolute right-0 mt-2 w-80 bg-white rounded-xl border border-gray-200 shadow-lg z-50 max-h-96 overflow-y-auto">
+                  <div className="p-3 border-b border-gray-100 font-semibold text-gray-700 text-sm">
+                    Notifikasi {notifications.length > 0 && `(${notifications.length})`}
+                  </div>
+                  {notifications.length === 0 ? (
+                    <div className="p-6 text-center text-sm text-gray-400">Tidak ada notifikasi baru.</div>
+                  ) : (
+                    <div className="divide-y divide-gray-100">
+                      {notifications.map((n) => {
+                        const Icon = n.icon;
+                        return (
+                          <button
+                            key={n.id}
+                            onClick={() => {
+                              n.onClick();
+                              setNotifOpen(false);
+                            }}
+                            className="w-full text-left p-3 flex gap-3 hover:bg-gray-50"
+                          >
+                            <div className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 ${n.color}`}>
+                              <Icon className="w-4 h-4" />
+                            </div>
+                            <div className="min-w-0">
+                              <p className="text-sm font-medium text-gray-700 truncate">{n.title}</p>
+                              <p className="text-xs text-gray-500 truncate">{n.desc}</p>
+                            </div>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
             <div className="flex items-center gap-2 pl-4 border-l border-gray-200">
               <div className="w-8 h-8 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center font-bold">
                 {(user?.full_name || '?').charAt(0)}
