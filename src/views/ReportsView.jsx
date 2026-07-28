@@ -39,7 +39,7 @@ function exportCsv(filename, rows, columns) {
 
 function StatCard({ label, value, colorClass }) {
   return (
-    <div className="bg-white p-5 rounded-xl border border-gray-100 shadow-sm">
+    <div className="bg-white p-4 sm:p-5 rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
       <p className="text-sm text-gray-500 font-medium mb-1">{label}</p>
       <h3 className={`text-2xl font-bold ${colorClass || 'text-gray-800'}`}>{value}</h3>
     </div>
@@ -48,7 +48,7 @@ function StatCard({ label, value, colorClass }) {
 
 function ReportToolbar({ from, to, setFrom, setTo, search, setSearch, searchPlaceholder, onExport, exportDisabled }) {
   return (
-    <div className="p-5 border-b border-gray-100 flex flex-col lg:flex-row gap-3 lg:items-end lg:justify-between">
+    <div className="p-4 sm:p-5 border-b border-gray-100 flex flex-col lg:flex-row gap-3 lg:items-end lg:justify-between">
       <div className="flex flex-col sm:flex-row gap-3">
         <div>
           <label className="block text-xs font-medium text-gray-500 mb-1">Dari Tanggal</label>
@@ -75,14 +75,14 @@ function ReportToolbar({ from, to, setFrom, setTo, search, setSearch, searchPlac
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder={searchPlaceholder}
-            className="border border-gray-200 rounded-lg text-sm py-2 px-3 outline-none focus:border-blue-500 w-56"
+            className="border border-gray-200 rounded-lg text-sm py-2 px-3 outline-none focus:border-blue-500 w-full sm:w-56"
           />
         </div>
       </div>
       <button
         onClick={onExport}
         disabled={exportDisabled}
-        className="px-4 py-2 bg-slate-800 text-white rounded-lg text-sm font-medium hover:bg-slate-900 disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center gap-2 h-fit"
+        className="px-4 py-2 bg-slate-800 text-white rounded-lg text-sm font-medium hover:bg-slate-900 disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center gap-2 h-fit w-full lg:w-auto shrink-0"
       >
         <Download className="w-4 h-4" /> Export CSV
       </button>
@@ -119,7 +119,7 @@ function ReportInbound({ transactions }) {
 
   return (
     <div className="space-y-6">
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
         <StatCard label="Total Transaksi Masuk" value={rows.length} colorClass="text-emerald-600" />
         <StatCard label="Total Unit Masuk" value={totalQty} colorClass="text-emerald-600" />
         <StatCard label="Jumlah SKU Terlibat" value={skuCount} />
@@ -150,7 +150,7 @@ function ReportInbound({ transactions }) {
         />
         <div className="overflow-x-auto">
           <table className="w-full text-left text-sm whitespace-nowrap">
-            <thead className="bg-gray-50 text-gray-500">
+            <thead className="bg-gray-50 text-gray-500 text-xs uppercase tracking-wider">
               <tr>
                 <th className="px-6 py-3 font-medium">ID Transaksi</th>
                 <th className="px-6 py-3 font-medium">Tanggal</th>
@@ -218,7 +218,7 @@ function ReportOutbound({ transactions }) {
 
   return (
     <div className="space-y-6">
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
         <StatCard label="Total Transaksi Keluar" value={rows.length} colorClass="text-orange-600" />
         <StatCard label="Total Unit Keluar" value={totalQty} colorClass="text-orange-600" />
         <StatCard label="Jumlah SKU Terlibat" value={skuCount} />
@@ -248,7 +248,7 @@ function ReportOutbound({ transactions }) {
         />
         <div className="overflow-x-auto">
           <table className="w-full text-left text-sm whitespace-nowrap">
-            <thead className="bg-gray-50 text-gray-500">
+            <thead className="bg-gray-50 text-gray-500 text-xs uppercase tracking-wider">
               <tr>
                 <th className="px-6 py-3 font-medium">ID Transaksi</th>
                 <th className="px-6 py-3 font-medium">Tanggal</th>
@@ -326,13 +326,13 @@ function ReportLoans({ loans }) {
 
   return (
     <div className="space-y-6">
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
         <StatCard label="Sedang Dipinjam" value={dipinjam} colorClass="text-amber-600" />
         <StatCard label="Sudah Dikembalikan" value={dikembalikan} colorClass="text-emerald-600" />
         <StatCard label="Terlambat" value={terlambat} colorClass="text-red-600" />
       </div>
       <div className="bg-white rounded-xl border border-gray-100 shadow-sm">
-        <div className="p-5 border-b border-gray-100 flex flex-col lg:flex-row gap-3 lg:items-end lg:justify-between">
+        <div className="p-4 sm:p-5 border-b border-gray-100 flex flex-col lg:flex-row gap-3 lg:items-end lg:justify-between">
           <div className="flex flex-col sm:flex-row gap-3 flex-wrap">
             <div>
               <label className="block text-xs font-medium text-gray-500 mb-1">Dari Tgl Pinjam</label>
@@ -372,7 +372,7 @@ function ReportLoans({ loans }) {
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 placeholder="Cari drone, peminjam, project..."
-                className="border border-gray-200 rounded-lg text-sm py-2 px-3 outline-none focus:border-blue-500 w-56"
+                className="border border-gray-200 rounded-lg text-sm py-2 px-3 outline-none focus:border-blue-500 w-full sm:w-56"
               />
             </div>
           </div>
@@ -393,14 +393,14 @@ function ReportLoans({ loans }) {
               ])
             }
             disabled={rows.length === 0}
-            className="px-4 py-2 bg-slate-800 text-white rounded-lg text-sm font-medium hover:bg-slate-900 disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center gap-2 h-fit"
+            className="px-4 py-2 bg-slate-800 text-white rounded-lg text-sm font-medium hover:bg-slate-900 disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center gap-2 h-fit w-full lg:w-auto shrink-0"
           >
             <Download className="w-4 h-4" /> Export CSV
           </button>
         </div>
         <div className="overflow-x-auto">
           <table className="w-full text-left text-sm whitespace-nowrap">
-            <thead className="bg-gray-50 text-gray-500">
+            <thead className="bg-gray-50 text-gray-500 text-xs uppercase tracking-wider">
               <tr>
                 <th className="px-6 py-3 font-medium">ID</th>
                 <th className="px-6 py-3 font-medium">Drone</th>

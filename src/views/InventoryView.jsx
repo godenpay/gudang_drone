@@ -81,9 +81,9 @@ export default function InventoryView({ inventory, onAdd, onEdit, onDelete, canE
 
   return (
     <div className="bg-white rounded-xl border border-gray-100 shadow-sm flex flex-col h-full relative">
-      <div className="p-5 border-b border-gray-100 flex flex-col sm:flex-row justify-between items-center gap-4">
-        <div className="flex items-center gap-3 w-full sm:w-auto">
-          <div className="relative w-full sm:w-72 flex items-center gap-2">
+      <div className="p-4 sm:p-5 border-b border-gray-100 flex flex-col lg:flex-row justify-between items-stretch lg:items-center gap-4">
+        <div className="flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center gap-3 w-full lg:w-auto">
+          <div className="relative w-full sm:w-64 flex items-center gap-2">
             <div className="relative flex-1">
               <Search className="w-4 h-4 text-gray-400 absolute left-3 top-1/2 transform -translate-y-1/2" />
               <input
@@ -96,31 +96,33 @@ export default function InventoryView({ inventory, onAdd, onEdit, onDelete, canE
             </div>
             <CameraScanButton onScan={(code) => setSearchTerm(code)} title="Cari pakai scan kamera" modalTitle="Scan Barcode — Cari Barang" />
           </div>
-          <select
-            className="border border-gray-200 rounded-lg text-sm py-2 px-3 outline-none focus:border-blue-500"
-            value={filterCategory}
-            onChange={(e) => setFilterCategory(e.target.value)}
-          >
-            <option value="All">Semua Kategori</option>
-            <option value="Drone">Drone</option>
-            <option value="Sparepart">Sparepart</option>
-            <option value="Baterai">Baterai</option>
-            <option value="Aksesoris">Aksesoris</option>
-          </select>
-          <select
-            className="border border-gray-200 rounded-lg text-sm py-2 px-3 outline-none focus:border-blue-500"
-            value={filterPurpose}
-            onChange={(e) => setFilterPurpose(e.target.value)}
-          >
-            <option value="All">Semua Peruntukan</option>
-            <option value="Jual">Stok Jual</option>
-            <option value="Demo-Project">Stok Demo/Project</option>
-          </select>
+          <div className="grid grid-cols-2 sm:flex gap-3">
+            <select
+              className="border border-gray-200 rounded-lg text-sm py-2 px-3 outline-none focus:border-blue-500 w-full sm:w-auto"
+              value={filterCategory}
+              onChange={(e) => setFilterCategory(e.target.value)}
+            >
+              <option value="All">Semua Kategori</option>
+              <option value="Drone">Drone</option>
+              <option value="Sparepart">Sparepart</option>
+              <option value="Baterai">Baterai</option>
+              <option value="Aksesoris">Aksesoris</option>
+            </select>
+            <select
+              className="border border-gray-200 rounded-lg text-sm py-2 px-3 outline-none focus:border-blue-500 w-full sm:w-auto"
+              value={filterPurpose}
+              onChange={(e) => setFilterPurpose(e.target.value)}
+            >
+              <option value="All">Semua Peruntukan</option>
+              <option value="Jual">Stok Jual</option>
+              <option value="Demo-Project">Stok Demo/Project</option>
+            </select>
+          </div>
         </div>
         {canEdit && (
           <button
             onClick={handleOpenAdd}
-            className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors w-full sm:w-auto flex items-center justify-center gap-2"
+            className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors w-full lg:w-auto flex items-center justify-center gap-2 shrink-0"
           >
             <Plus className="w-4 h-4" /> Tambah Master Data
           </button>
@@ -201,7 +203,7 @@ export default function InventoryView({ inventory, onAdd, onEdit, onDelete, canE
       {canEdit && isModalOpen && (
         <div className="fixed inset-0 bg-slate-900/50 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-xl shadow-lg w-full max-w-lg overflow-hidden flex flex-col max-h-[90vh]">
-            <div className="p-5 border-b border-gray-100 flex justify-between items-center">
+            <div className="p-4 sm:p-5 border-b border-gray-100 flex justify-between items-center">
               <h3 className="font-semibold text-gray-800 text-lg">
                 {editingItem ? 'Edit Master Data' : 'Tambah Master Data Baru'}
               </h3>
@@ -209,7 +211,7 @@ export default function InventoryView({ inventory, onAdd, onEdit, onDelete, canE
                 <X className="w-5 h-5" />
               </button>
             </div>
-            <form onSubmit={handleSubmit} className="p-5 flex-1 overflow-auto space-y-4">
+            <form onSubmit={handleSubmit} className="p-4 sm:p-5 flex-1 overflow-auto space-y-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1 flex items-center gap-1.5">
                   SKU Barang * <ScanBarcode className="w-3.5 h-3.5 text-gray-400" />

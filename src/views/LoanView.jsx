@@ -108,7 +108,7 @@ export default function LoanView({ inventory, loans, onCreateLoan, onReturnLoan,
 
       {canManage && (
       <div className="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden max-w-3xl">
-        <div className="p-6 border-b border-gray-100 bg-purple-50 text-purple-800">
+        <div className="p-4 sm:p-6 border-b border-gray-100 bg-purple-50 text-purple-800">
           <h3 className="text-lg font-semibold flex items-center gap-2">
             <HandHelping className="w-5 h-5" /> Form Peminjaman Drone (Demo/Project)
           </h3>
@@ -117,7 +117,7 @@ export default function LoanView({ inventory, loans, onCreateLoan, onReturnLoan,
           </p>
         </div>
 
-        <form onSubmit={handleSubmit} className="p-6 space-y-5">
+        <form onSubmit={handleSubmit} className="p-4 sm:p-6 space-y-5">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1 flex items-center gap-1.5">
               Scan Barcode Drone <ScanBarcode className="w-3.5 h-3.5 text-gray-400" />
@@ -235,18 +235,18 @@ export default function LoanView({ inventory, loans, onCreateLoan, onReturnLoan,
             />
           </div>
 
-          <div className="pt-4 border-t border-gray-100 flex justify-end gap-3">
+          <div className="pt-4 border-t border-gray-100 flex flex-col sm:flex-row justify-end gap-3">
             <button
               type="button"
               onClick={() => setFormData(emptyForm)}
-              className="px-5 py-2.5 border border-gray-300 text-gray-700 rounded-lg text-sm font-medium hover:bg-gray-50"
+              className="px-5 py-2.5 border border-gray-300 text-gray-700 rounded-lg text-sm font-medium hover:bg-gray-50 w-full sm:w-auto order-2 sm:order-1"
             >
               Reset
             </button>
             <button
               type="submit"
               disabled={isSubmitting || demoDrones.length === 0}
-              className="px-5 py-2.5 bg-purple-600 text-white rounded-lg text-sm font-medium hover:bg-purple-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+              className="px-5 py-2.5 bg-purple-600 text-white rounded-lg text-sm font-medium hover:bg-purple-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 w-full sm:w-auto order-1 sm:order-2"
             >
               <HandHelping className="w-4 h-4" /> {isSubmitting ? 'Memproses...' : 'Catat Peminjaman'}
             </button>
@@ -256,12 +256,12 @@ export default function LoanView({ inventory, loans, onCreateLoan, onReturnLoan,
       )}
 
       <div className="bg-white rounded-xl border border-gray-100 shadow-sm">
-        <div className="p-5 border-b border-gray-100">
+        <div className="p-4 sm:p-5 border-b border-gray-100">
           <h3 className="font-semibold text-gray-800">Peminjaman Aktif</h3>
         </div>
         <div className="overflow-x-auto">
           <table className="w-full text-left text-sm whitespace-nowrap">
-            <thead className="bg-gray-50 text-gray-500">
+            <thead className="bg-gray-50 text-gray-500 text-xs uppercase tracking-wider">
               <tr>
                 <th className="px-6 py-3 font-medium">ID</th>
                 <th className="px-6 py-3 font-medium">Drone</th>
@@ -326,12 +326,12 @@ export default function LoanView({ inventory, loans, onCreateLoan, onReturnLoan,
 
       {historyLoans.length > 0 && (
         <div className="bg-white rounded-xl border border-gray-100 shadow-sm">
-          <div className="p-5 border-b border-gray-100">
+          <div className="p-4 sm:p-5 border-b border-gray-100">
             <h3 className="font-semibold text-gray-800">Riwayat Pengembalian</h3>
           </div>
           <div className="overflow-x-auto">
             <table className="w-full text-left text-sm whitespace-nowrap">
-              <thead className="bg-gray-50 text-gray-500">
+              <thead className="bg-gray-50 text-gray-500 text-xs uppercase tracking-wider">
                 <tr>
                   <th className="px-6 py-3 font-medium">ID</th>
                   <th className="px-6 py-3 font-medium">Drone</th>
@@ -361,13 +361,13 @@ export default function LoanView({ inventory, loans, onCreateLoan, onReturnLoan,
       {returningLoan && (
         <div className="fixed inset-0 bg-slate-900/50 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-xl shadow-lg w-full max-w-md overflow-hidden">
-            <div className="p-5 border-b border-gray-100 flex justify-between items-center">
+            <div className="p-4 sm:p-5 border-b border-gray-100 flex justify-between items-center">
               <h3 className="font-semibold text-gray-800 text-lg">Konfirmasi Pengembalian</h3>
               <button onClick={() => setReturningLoan(null)} className="text-gray-400 hover:text-gray-600">
                 <X className="w-5 h-5" />
               </button>
             </div>
-            <form onSubmit={handleReturnSubmit} className="p-5 space-y-4">
+            <form onSubmit={handleReturnSubmit} className="p-4 sm:p-5 space-y-4">
               <p className="text-sm text-gray-600">
                 Mengembalikan <span className="font-medium">{returningLoan.qty}x {returningLoan.item_name}</span> dari peminjaman{' '}
                 <span className="font-mono text-xs">{returningLoan.id}</span> ke stok demo.
@@ -382,15 +382,15 @@ export default function LoanView({ inventory, loans, onCreateLoan, onReturnLoan,
                   onChange={(e) => setConditionNote(e.target.value)}
                 />
               </div>
-              <div className="pt-2 flex justify-end gap-3">
+              <div className="pt-2 flex flex-col sm:flex-row justify-end gap-3">
                 <button
                   type="button"
                   onClick={() => setReturningLoan(null)}
-                  className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg text-sm font-medium hover:bg-gray-50"
+                  className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg text-sm font-medium hover:bg-gray-50 w-full sm:w-auto order-2 sm:order-1"
                 >
                   Batal
                 </button>
-                <button type="submit" className="px-4 py-2 bg-emerald-600 text-white rounded-lg text-sm font-medium hover:bg-emerald-700 flex items-center gap-2">
+                <button type="submit" className="px-4 py-2 bg-emerald-600 text-white rounded-lg text-sm font-medium hover:bg-emerald-700 flex items-center justify-center gap-2 w-full sm:w-auto order-1 sm:order-2">
                   <CheckCircle2 className="w-4 h-4" /> Konfirmasi Kembali
                 </button>
               </div>

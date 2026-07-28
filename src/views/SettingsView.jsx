@@ -38,13 +38,13 @@ export default function SettingsView({ user }) {
 
   return (
     <div className="max-w-3xl mx-auto bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
-      <div className="p-6 border-b border-gray-100">
+      <div className="p-4 sm:p-6 border-b border-gray-100">
         <h3 className="font-semibold text-gray-800 text-lg">Pengaturan Sistem</h3>
       </div>
-      <div className="p-6 space-y-6">
+      <div className="p-4 sm:p-6 space-y-6">
         <div>
           <h4 className="text-sm font-semibold text-gray-700 mb-3 uppercase tracking-wider">Profil Gudang</h4>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label className="block text-xs text-gray-500 mb-1">Nama Perusahaan</label>
               <input
@@ -68,7 +68,7 @@ export default function SettingsView({ user }) {
         <hr className="border-gray-100" />
         <div>
           <h4 className="text-sm font-semibold text-gray-700 mb-3 uppercase tracking-wider">Akun Anda</h4>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label className="block text-xs text-gray-500 mb-1">Nama</label>
               <input
@@ -153,7 +153,7 @@ export default function SettingsView({ user }) {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="bg-blue-600 text-white text-sm font-medium py-2 px-4 rounded-lg hover:bg-blue-700 disabled:opacity-50 transition-colors"
+              className="w-full sm:w-auto bg-blue-600 text-white text-sm font-medium py-2 px-4 rounded-lg hover:bg-blue-700 disabled:opacity-50 transition-colors"
             >
               {isSubmitting ? 'Menyimpan...' : 'Ganti Password'}
             </button>

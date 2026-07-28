@@ -9,13 +9,13 @@ export default function HistoryView({ transactions, onApprove, onReject, isAdmin
 
   return (
     <div className="bg-white rounded-xl border border-gray-100 shadow-sm flex flex-col h-full">
-      <div className="p-5 border-b border-gray-100">
+      <div className="p-4 sm:p-5 border-b border-gray-100">
         <h3 className="font-semibold text-gray-800 text-lg">Semua Riwayat Transaksi</h3>
         <p className="text-sm text-gray-500 mt-1">Catatan histori seluruh barang masuk dan keluar di gudang.</p>
       </div>
       <div className="overflow-x-auto flex-1">
-        <table className="w-full text-left text-sm">
-          <thead className="bg-gray-50 text-gray-500 sticky top-0">
+        <table className="w-full text-left text-sm whitespace-nowrap">
+          <thead className="bg-gray-50 text-gray-500 text-xs uppercase tracking-wider sticky top-0">
             <tr>
               <th className="px-6 py-4 font-medium">ID Transaksi</th>
               <th className="px-6 py-4 font-medium">Tipe</th>

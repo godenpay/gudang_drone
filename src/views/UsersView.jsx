@@ -140,14 +140,14 @@ export default function UsersView({ currentUser }) {
 
   return (
     <div className="max-w-5xl mx-auto space-y-4">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div>
           <h3 className="font-semibold text-gray-800 text-lg">Manajemen User</h3>
           <p className="text-sm text-gray-500">Tambah akun baru dan atur menu apa saja yang boleh diakses.</p>
         </div>
         <button
           onClick={openAddModal}
-          className="flex items-center gap-2 bg-blue-600 text-white text-sm font-medium py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors"
+          className="flex items-center justify-center gap-2 bg-blue-600 text-white text-sm font-medium py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors w-full sm:w-auto shrink-0"
         >
           <Plus className="w-4 h-4" /> Tambah User
         </button>
@@ -233,14 +233,14 @@ export default function UsersView({ currentUser }) {
       {isModalOpen && (
         <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-xl shadow-xl w-full max-w-lg max-h-[90vh] overflow-y-auto">
-            <div className="flex items-center justify-between p-5 border-b border-gray-100">
+            <div className="flex items-center justify-between p-4 sm:p-5 border-b border-gray-100">
               <h4 className="font-semibold text-gray-800">{editingUser ? 'Edit User' : 'Tambah User Baru'}</h4>
               <button onClick={closeModal} className="p-1 text-gray-400 hover:text-gray-600">
                 <X className="w-5 h-5" />
               </button>
             </div>
 
-            <form onSubmit={handleSubmit} className="p-5 space-y-4">
+            <form onSubmit={handleSubmit} className="p-4 sm:p-5 space-y-4">
               {formError && (
                 <div className="flex items-center gap-2 text-sm p-3 rounded-lg border text-red-600 bg-red-50 border-red-100">
                   <AlertTriangle className="w-4 h-4 shrink-0" />
@@ -324,14 +324,14 @@ export default function UsersView({ currentUser }) {
                 </div>
               )}
 
-              <div className="flex justify-end gap-2 pt-2">
-                <button type="button" onClick={closeModal} className="px-4 py-2 text-sm text-gray-600 hover:bg-gray-100 rounded-lg">
+              <div className="flex flex-col sm:flex-row justify-end gap-2 pt-2">
+                <button type="button" onClick={closeModal} className="px-4 py-2 text-sm text-gray-600 hover:bg-gray-100 rounded-lg w-full sm:w-auto order-2 sm:order-1">
                   Batal
                 </button>
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="flex items-center gap-2 bg-blue-600 text-white text-sm font-medium py-2 px-4 rounded-lg hover:bg-blue-700 disabled:opacity-50"
+                  className="flex items-center justify-center gap-2 bg-blue-600 text-white text-sm font-medium py-2 px-4 rounded-lg hover:bg-blue-700 disabled:opacity-50 w-full sm:w-auto order-1 sm:order-2"
                 >
                   <CheckCircle2 className="w-4 h-4" />
                   {isSubmitting ? 'Menyimpan...' : editingUser ? 'Simpan Perubahan' : 'Buat User'}
