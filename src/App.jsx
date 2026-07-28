@@ -35,6 +35,8 @@ import ReportsView from './views/ReportsView';
 function Shell() {
   const { user, logout } = useAuth();
   const isAdminGudang = user?.role === 'admin_gudang';
+  const roleLabel =
+    user?.role === 'admin_gudang' ? 'Admin Gudang' : user?.role === 'staff' ? 'Staff' : 'Manajer';
   // Admin selalu punya akses penuh; user lain dicek dari daftar permission
   // yang di-set admin lewat Manajemen User (tersimpan di DB, bukan hardcode role lagi).
   const can = (menuKey) => isAdminGudang || (user?.permissions || []).includes(menuKey);
@@ -359,7 +361,7 @@ function Shell() {
               </div>
               <div className="text-sm">
                 <p className="font-semibold text-gray-700">{user?.full_name}</p>
-                <p className="text-xs text-gray-400">{isAdminGudang ? 'Admin Gudang' : 'Manajer'}</p>
+                <p className="text-xs text-gray-400">{roleLabel}</p>
               </div>
             </div>
           </div>
