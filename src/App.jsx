@@ -18,6 +18,7 @@ import {
   Clock,
 } from 'lucide-react';
 
+import logo from './assets/logo.png';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { api } from './api';
 import Login from './components/Login';
@@ -258,8 +259,8 @@ function Shell() {
       <aside className={`${isSidebarOpen ? 'w-64' : 'w-20'} transition-all duration-300 bg-slate-900 text-white flex flex-col`}>
         <div className="p-4 flex items-center justify-between border-b border-slate-800">
           <div className={`flex items-center overflow-hidden whitespace-nowrap ${!isSidebarOpen && 'hidden'}`}>
-            <div className="bg-blue-600 p-2 rounded-lg mr-3">
-              <Package className="w-5 h-5 text-white" />
+            <div className="bg-white p-1.5 rounded-lg mr-3 shrink-0">
+              <img src={logo} alt="GETINDO" className="w-8 h-8 object-contain" />
             </div>
             <div>
               <h1 className="font-bold text-sm">PT. GENERAL TECH</h1>
